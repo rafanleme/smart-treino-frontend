@@ -13,15 +13,7 @@ export const AchievementGrid: React.FC<AchievementGridProps> = ({ achievements }
   const filteredAchievements = selectedCategory === 'all'
     ? achievements
     : achievements.filter(a => a.category === selectedCategory);
-
-  const categoryLabels = {
-    all: 'Todas',
-    consistency: 'Consistência',
-    strength: 'Força',
-    assessment: 'Avaliação',
-    milestone: 'Marcos',
-  };
-
+    
   return (
     <div>
       <div style={{ marginBottom: '24px', textAlign: 'center' }}>
