@@ -1,0 +1,55 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Bench Press",
+      "name_pt": "Supino Reto",
+      "description": "Lie on bench and press barbell",
+      "description_pt": "Deite no banco e empurre a barra",
+      "muscle_group": "chest",
+      "secondary_muscles": ["triceps", "shoulders"],
+      "equipment": "barbell",
+      "difficulty": "intermediate",
+      "exercise_type": "strength",
+      "image_url": null,
+      "is_custom": false,
+      "created_by": null
+    },
+    {
+      "id": 2,
+      "name": "Barbell Back Squat",
+      "name_pt": "Agachamento Livre",
+      "description": "Squat with barbell on back",
+      "description_pt": "Agache com barra nas costas",
+      "muscle_group": "legs",
+      "secondary_muscles": ["glutes", "abs"],
+      "equipment": "barbell",
+      "difficulty": "intermediate",
+      "exercise_type": "strength",
+      "image_url": null,
+      "is_custom": false,
+      "created_by": null
+    },
+    {
+      "id": 3,
+      "name": "Deadlift",
+      "name_pt": "Levantamento Terra",
+      "description": "Lift barbell from ground",
+      "description_pt": "Levante a barra do chão",
+      "muscle_group": "back",
+      "secondary_muscles": ["legs", "glutes"],
+      "equipment": "barbell",
+      "difficulty": "advanced",
+      "exercise_type": "strength",
+      "image_url": null,
+      "is_custom": false,
+      "created_by": null
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "last_page": 1,
+    "per_page": 20,
+    "total": 3
+  }
+}

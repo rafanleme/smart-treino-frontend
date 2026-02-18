@@ -1,0 +1,38 @@
+{
+  "data": {
+    "from": {
+      "id": 1,
+      "assessed_at": "2026-01-15T00:00:00.000000Z",
+      "weight_kg": 80.0,
+      "body_fat_pct": 18.0,
+      "chest_cm": 98.0
+    },
+    "to": {
+      "id": 2,
+      "assessed_at": "2026-02-15T00:00:00.000000Z",
+      "weight_kg": 82.5,
+      "body_fat_pct": 16.5,
+      "chest_cm": 101.0
+    },
+    "deltas": {
+      "weight_kg": {
+        "from": 80.0,
+        "to": 82.5,
+        "delta": 2.5,
+        "delta_pct": 3.125
+      },
+      "body_fat_pct": {
+        "from": 18.0,
+        "to": 16.5,
+        "delta": -1.5,
+        "delta_pct": -8.333
+      },
+      "chest_cm": {
+        "from": 98.0,
+        "to": 101.0,
+        "delta": 3.0,
+        "delta_pct": 3.061
+      }
+    }
+  }
+}

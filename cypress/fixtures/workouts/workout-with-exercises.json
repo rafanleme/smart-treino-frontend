@@ -1,0 +1,66 @@
+{
+  "data": {
+    "id": 1,
+    "user_id": 1,
+    "name": "Treino A - Push",
+    "description": "Peito, ombro e tríceps",
+    "is_ai_generated": false,
+    "estimated_duration_min": 60,
+    "exercises_count": 3,
+    "created_at": "2026-02-15T00:00:00.000000Z",
+    "updated_at": "2026-02-15T00:00:00.000000Z",
+    "workout_exercises": [
+      {
+        "id": 1,
+        "workout_id": 1,
+        "exercise_id": 1,
+        "order": 1,
+        "sets": 4,
+        "reps": "8-10",
+        "rest_seconds": 90,
+        "notes": null,
+        "exercise": {
+          "id": 1,
+          "name": "Bench Press",
+          "name_pt": "Supino Reto",
+          "muscle_group": "chest",
+          "equipment": "barbell"
+        }
+      },
+      {
+        "id": 2,
+        "workout_id": 1,
+        "exercise_id": 2,
+        "order": 2,
+        "sets": 3,
+        "reps": "10-12",
+        "rest_seconds": 60,
+        "notes": null,
+        "exercise": {
+          "id": 2,
+          "name": "Incline Dumbbell Press",
+          "name_pt": "Supino Inclinado com Halteres",
+          "muscle_group": "chest",
+          "equipment": "dumbbell"
+        }
+      },
+      {
+        "id": 3,
+        "workout_id": 1,
+        "exercise_id": 3,
+        "order": 3,
+        "sets": 3,
+        "reps": "12-15",
+        "rest_seconds": 60,
+        "notes": null,
+        "exercise": {
+          "id": 3,
+          "name": "Shoulder Press",
+          "name_pt": "Desenvolvimento de Ombros",
+          "muscle_group": "shoulders",
+          "equipment": "barbell"
+        }
+      }
+    ]
+  }
+}
