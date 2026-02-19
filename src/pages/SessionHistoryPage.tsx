@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Empty, Spin, Typography, Tag, Row, Col, Statistic, Button } from 'antd';
+import { Card, Empty, Skeleton, Typography, Tag, Row, Col, Statistic, Button } from 'antd';
 import {
   CalendarOutlined,
   ClockCircleOutlined,
@@ -67,20 +67,22 @@ export function SessionHistoryPage() {
     return `${mins}min`;
   };
 
-  if (loading && sessions.length === 0) {
-    return (
-      <div style={{ textAlign: 'center', padding: 48 }}>
-        <Spin size="large" tip="Carregando histórico..." />
-      </div>
-    );
-  }
-
   return (
     <div style={{ padding: 24 }}>
       <Title level={2}>Histórico de Treinos</Title>
       <Text type="secondary">Revise seus treinos anteriores e acompanhe seu progresso</Text>
 
-      {sessions.length === 0 ? (
+      {loading && sessions.length === 0 && (
+        <div style={{ marginTop: 24 }}>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <Card key={index} style={{ marginBottom: 16 }}>
+              <Skeleton active title paragraph={{ rows: 2 }} />
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {!loading && sessions.length === 0 ? (
         <Card style={{ marginTop: 24 }}>
           <Empty
             description="Nenhum treino concluído ainda"

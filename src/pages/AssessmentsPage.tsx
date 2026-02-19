@@ -1,4 +1,4 @@
-import { Typography, Button, Card, Row, Col, Empty, Spin, Tag, Popconfirm } from 'antd';
+import { Typography, Button, Card, Row, Col, Empty, Skeleton, Tag, Popconfirm } from 'antd';
 import { PlusOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useAssessments } from '../hooks/useAssessments';
@@ -17,14 +17,6 @@ export function AssessmentsPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div style={{ textAlign: 'center', padding: 48 }}>
-        <Spin size="large" description="Carregando avaliações..." />
-      </div>
-    );
-  }
-
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
@@ -42,7 +34,17 @@ export function AssessmentsPage() {
         </div>
       </div>
 
-      {assessments.length === 0 ? (
+      {loading ? (
+        <Row gutter={[16, 16]}>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <Col key={index} xs={24} sm={12} lg={8}>
+              <Card>
+                <Skeleton active title paragraph={{ rows: 3 }} />
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      ) : assessments.length === 0 ? (
         <Empty description="Nenhuma avaliação registrada" style={{ padding: 48 }}>
           <Button type="primary" icon={<PlusOutlined />} onClick={() => navigate('/assessments/new')}>
             Criar Primeira Avaliação

@@ -1,4 +1,4 @@
-import { Row, Col, Pagination, Empty, Spin } from 'antd';
+import { Row, Col, Pagination, Empty, Skeleton, Card } from 'antd';
 import type { Exercise } from '../../types';
 import { ExerciseCard } from './ExerciseCard';
 
@@ -25,9 +25,15 @@ export function ExerciseList({
 }: ExerciseListProps) {
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: 48 }}>
-        <Spin size="large" description="Carregando exercícios..." />
-      </div>
+      <Row gutter={[16, 16]}>
+        {Array.from({ length: perPage }).map((_, index) => (
+          <Col key={index} xs={24} sm={12} md={8} lg={6} xl={6}>
+            <Card>
+              <Skeleton active avatar paragraph={{ rows: 3 }} />
+            </Card>
+          </Col>
+        ))}
+      </Row>
     );
   }
 

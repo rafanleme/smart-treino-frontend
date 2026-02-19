@@ -1,4 +1,4 @@
-import { Spin, Typography, Alert, Empty, Select, Space } from 'antd';
+import { Skeleton, Typography, Alert, Empty, Select, Space, Card } from 'antd';
 import { useState } from 'react';
 import { PersonalRecordCard } from '../components/gamification/PersonalRecordCard';
 import { usePersonalRecords } from '../hooks/usePersonalRecords';
@@ -9,14 +9,6 @@ const { Title, Paragraph } = Typography;
 export function PersonalRecordsPage() {
   const [selectedExerciseId, setSelectedExerciseId] = useState<number | undefined>();
   const { records, loading, error } = usePersonalRecords(selectedExerciseId);
-
-  if (loading) {
-    return (
-      <div style={{ textAlign: 'center', padding: '100px 0' }}>
-        <Spin size="large" />
-      </div>
-    );
-  }
 
   if (error) {
     return (
@@ -56,7 +48,17 @@ export function PersonalRecordsPage() {
         Seus melhores desempenhos por exercício
       </Paragraph>
 
-      {exercises.length > 0 && (
+      {loading ? (
+        <Space direction="vertical" style={{ width: '100%' }} size="middle">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <Card key={index}>
+              <Skeleton active title paragraph={{ rows: 2 }} />
+            </Card>
+          ))}
+        </Space>
+      ) : (
+        <>
+          {exercises.length > 0 && (
         <div style={{ marginBottom: '24px' }}>
           <Select
             style={{ width: '300px' }}
@@ -67,27 +69,29 @@ export function PersonalRecordsPage() {
             onChange={setSelectedExerciseId}
           />
         </div>
-      )}
-
-      {records.length === 0 ? (
-        <Empty description="Nenhum record pessoal ainda. Continue treinando!" />
-      ) : (
-        <Space direction="vertical" style={{ width: '100%' }} size="middle">
-          {selectedExerciseId ? (
-            // Show all records for selected exercise
-            records.map(record => (
-              <PersonalRecordCard key={record.id} record={record} />
-            ))
-          ) : (
-            // Show latest record for each exercise
-            Object.values(groupedRecords).map(exerciseRecords => {
-              const latestRecord = exerciseRecords.sort((a, b) =>
-                new Date(b.achieved_at).getTime() - new Date(a.achieved_at).getTime()
-              )[0];
-              return <PersonalRecordCard key={latestRecord.id} record={latestRecord} />;
-            })
           )}
-        </Space>
+
+          {records.length === 0 ? (
+        <Empty description="Nenhum record pessoal ainda. Continue treinando!" />
+          ) : (
+            <Space direction="vertical" style={{ width: '100%' }} size="middle">
+              {selectedExerciseId ? (
+                // Show all records for selected exercise
+                records.map(record => (
+                  <PersonalRecordCard key={record.id} record={record} />
+                ))
+              ) : (
+                // Show latest record for each exercise
+                Object.values(groupedRecords).map(exerciseRecords => {
+                  const latestRecord = exerciseRecords.sort((a, b) =>
+                    new Date(b.achieved_at).getTime() - new Date(a.achieved_at).getTime()
+                  )[0];
+                  return <PersonalRecordCard key={latestRecord.id} record={latestRecord} />;
+                })
+              )}
+            </Space>
+          )}
+        </>
       )}
     </div>
   );

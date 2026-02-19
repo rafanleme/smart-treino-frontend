@@ -1,4 +1,4 @@
-import { Typography, Button, Row, Col, Empty, Spin } from 'antd';
+import { Typography, Button, Row, Col, Empty, Skeleton, Card } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useWorkouts } from '../hooks/useWorkouts';
@@ -46,9 +46,15 @@ export function WorkoutsPage() {
       </div>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: 48 }}>
-          <Spin size="large" description="Carregando treinos..." />
-        </div>
+        <Row gutter={[16, 16]}>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <Col key={index} xs={24}>
+              <Card>
+                <Skeleton active title paragraph={{ rows: 4 }} />
+              </Card>
+            </Col>
+          ))}
+        </Row>
       ) : workouts.length === 0 ? (
         <Empty
           description="Nenhum treino criado ainda"

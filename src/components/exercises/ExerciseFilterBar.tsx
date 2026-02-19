@@ -1,8 +1,7 @@
 import { Input, Select, Segmented, Space, Tag } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import { useState, useEffect } from 'react';
 import type { MuscleGroup, Equipment, Difficulty, ExerciseFilters } from '../../types';
-
-const { Search } = Input;
 
 const muscleGroupOptions: { value: MuscleGroup; label: string; color: string }[] = [
   { value: 'chest', label: 'Peito', color: 'red' },
@@ -41,6 +40,17 @@ interface ExerciseFilterBarProps {
 }
 
 export function ExerciseFilterBar({ filters, onFiltersChange }: ExerciseFilterBarProps) {
+  const [searchValue, setSearchValue] = useState(filters.search || '');
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onFiltersChange({ ...filters, search: searchValue || undefined });
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchValue]);
+
   const handleMuscleGroupChange = (muscleGroup: MuscleGroup | undefined) => {
     onFiltersChange({ ...filters, muscle_group: muscleGroup });
   };
@@ -56,20 +66,20 @@ export function ExerciseFilterBar({ filters, onFiltersChange }: ExerciseFilterBa
     });
   };
 
-  const handleSearch = (search: string) => {
-    onFiltersChange({ ...filters, search: search || undefined });
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
   };
 
   return (
     <Space orientation="vertical" style={{ width: '100%', marginBottom: 24 }} size="middle">
       {/* Search */}
-      <Search
+      <Input
         placeholder="Buscar exercício por nome..."
         allowClear
-        enterButton={<SearchOutlined />}
+        prefix={<SearchOutlined />}
         size="large"
-        onSearch={handleSearch}
-        defaultValue={filters.search}
+        onChange={handleSearchChange}
+        value={searchValue}
       />
 
       {/* Muscle Groups - Chips/Tags */}

@@ -25,7 +25,11 @@ const menuItems = [
   { key: '/profile', icon: <UserOutlined />, label: 'Perfil' },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  onNavigate?: () => void;
+}
+
+export function Sidebar({ onNavigate }: SidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,12 +37,17 @@ export function Sidebar() {
     .filter((item) => location.pathname.startsWith(item.key) && item.key !== '/')
     .sort((a, b) => b.key.length - a.key.length)[0]?.key || '/';
 
+  const handleClick = ({ key }: { key: string }) => {
+    navigate(key);
+    onNavigate?.();
+  };
+
   return (
     <Menu
       mode="inline"
       selectedKeys={[selectedKey]}
       items={menuItems}
-      onClick={({ key }) => navigate(key)}
+      onClick={handleClick}
       style={{ height: '100%', borderRight: 0 }}
     />
   );

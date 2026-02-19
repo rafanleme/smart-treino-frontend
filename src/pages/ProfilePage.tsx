@@ -4,30 +4,21 @@ import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { statsService } from '../services/statsService';
+import type { DashboardStats } from '../types';
 
 const { Title, Text } = Typography;
-
-interface Stats {
-  total_sessions: number;
-  total_workouts: number;
-  total_achievements: number;
-  current_streak: number;
-  total_volume_kg: number;
-  total_xp: number;
-  level: number;
-}
 
 export function ProfilePage() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [stats, setStats] = useState<Stats | null>(null);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await statsService.getDashboard();
-        setStats(response.data.data);
+        const data = await statsService.getDashboard();
+        setStats(data);
       } catch (error) {
         console.error('Error fetching stats:', error);
       } finally {
@@ -100,15 +91,17 @@ export function ProfilePage() {
               </Col>
               <Col xs={12} sm={8}>
                 <Statistic
-                  title="Treinos Criados"
-                  value={stats?.total_workouts || 0}
+                  title="Volume Total"
+                  value={stats?.total_volume_kg || 0}
+                  suffix="kg"
                   prefix={<LineChartOutlined />}
                 />
               </Col>
               <Col xs={12} sm={8}>
                 <Statistic
-                  title="Conquistas"
-                  value={stats?.total_achievements || 0}
+                  title="Duração Total"
+                  value={stats?.total_duration_hours || 0}
+                  suffix="h"
                   prefix={<TrophyOutlined />}
                 />
               </Col>

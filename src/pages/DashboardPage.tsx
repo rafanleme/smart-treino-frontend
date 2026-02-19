@@ -3,13 +3,12 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { FireFilled, TrophyOutlined, CalendarOutlined } from '@ant-design/icons';
 import { StatsWidget } from '../components/gamification/StatsWidget';
 import { LevelProgress } from '../components/gamification/LevelProgress';
-import { StreakDisplay } from '../components/gamification/StreakDisplay';
 import { AchievementBadge } from '../components/gamification/AchievementBadge';
 import { PersonalRecordCard } from '../components/gamification/PersonalRecordCard';
 import { useStats } from '../hooks/useStats';
 import { useRecentAchievements } from '../hooks/useAchievements';
 import { usePersonalRecords } from '../hooks/usePersonalRecords';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { sessionService } from '../services/sessionService';
 import { achievementService } from '../services/achievementService';
 
@@ -23,6 +22,10 @@ export function DashboardPage() {
   const [nextAchievement, setNextAchievement] = useState<any>(null);
   const [loadingSessions, setLoadingSessions] = useState(true);
 
+  // Compute derived values BEFORE any conditional returns
+  const recentRecords = useMemo(() => records.slice(0, 3), [records]);
+  const recentAchievements = useMemo(() => achievements.slice(0, 3), [achievements]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,8 +34,7 @@ export function DashboardPage() {
         setRecentSessions(sessionsResponse.data.data);
 
         // Fetch all achievements to find next one
-        const achievementsResponse = await achievementService.list();
-        const allAchievements = achievementsResponse.data.data;
+        const allAchievements = await achievementService.getAll();
 
         // Find next achievement closest to unlock (locked with highest progress)
         const locked = allAchievements.filter((a: any) => !a.unlocked_at);
@@ -69,9 +71,6 @@ export function DashboardPage() {
       />
     );
   }
-
-  const recentRecords = records.slice(0, 3);
-  const recentAchievements = achievements.slice(0, 3);
 
   return (
     <div style={{ padding: '24px' }}>

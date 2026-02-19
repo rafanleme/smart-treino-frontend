@@ -1,11 +1,16 @@
-import { Avatar, Dropdown, Space, Typography } from 'antd';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Dropdown, Space, Typography, Button } from 'antd';
+import { LogoutOutlined, UserOutlined, MenuOutlined } from '@ant-design/icons';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 const { Text } = Typography;
 
-export function AppHeader() {
+interface AppHeaderProps {
+  onMenuClick?: () => void;
+  showMenuButton?: boolean;
+}
+
+export function AppHeader({ onMenuClick, showMenuButton }: AppHeaderProps) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -31,11 +36,21 @@ export function AppHeader() {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-      <Text strong style={{ fontSize: 18 }}>SmartTreino</Text>
+      <Space>
+        {showMenuButton && (
+          <Button
+            type="text"
+            icon={<MenuOutlined />}
+            onClick={onMenuClick}
+            style={{ fontSize: 18 }}
+          />
+        )}
+        <Text strong style={{ fontSize: 18 }}>SmartTreino</Text>
+      </Space>
       <Dropdown menu={{ items }} placement="bottomRight">
         <Space style={{ cursor: 'pointer' }}>
-          <Avatar src={user?.avatar_url} icon={<UserOutlined />} />
-          <Text>{user?.name}</Text>
+          <Avatar src={user?.avatar_url} icon={<UserOutlined />} size={showMenuButton ? 'default' : 'default'} />
+          {!showMenuButton && <Text>{user?.name}</Text>}
         </Space>
       </Dropdown>
     </div>
