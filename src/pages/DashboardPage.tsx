@@ -14,6 +14,30 @@ import { achievementService } from '../services/achievementService';
 
 const { Title, Text } = Typography;
 
+// Helper function to convert achievement icon names to emojis
+const getAchievementEmoji = (icon: string | null): string => {
+  if (!icon) return '🏆';
+
+  const iconMap: Record<string, string> = {
+    'arrow_down': '⬇️',
+    'arrow_up': '⬆️',
+    'fire': '🔥',
+    'trophy': '🏆',
+    'medal': '🏅',
+    'star': '⭐',
+    'muscle': '💪',
+    'target': '🎯',
+    'calendar': '📅',
+    'weight': '⚖️',
+    'chart': '📊',
+    'rocket': '🚀',
+    'crown': '👑',
+    'gem': '💎',
+  };
+
+  return iconMap[icon.toLowerCase()] || icon;
+};
+
 export function DashboardPage() {
   const { stats, loading: statsLoading, error: statsError } = useStats();
   const { achievements, loading: achievementsLoading } = useRecentAchievements();
@@ -197,28 +221,34 @@ export function DashboardPage() {
         >
           <Row gutter={16} align="middle">
             <Col flex="none">
-              <Badge count={nextAchievement.xp_reward + ' XP'} showZero>
+              <Badge count={nextAchievement.xp_reward + ' XP'} showZero color="gold">
                 <div style={{
                   width: 60,
                   height: 60,
                   borderRadius: '50%',
-                  background: '#f0f0f0',
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: 24
+                  fontSize: 28,
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
                 }}>
-                  {nextAchievement.icon || '🏆'}
+                  {getAchievementEmoji(nextAchievement.icon)}
                 </div>
               </Badge>
             </Col>
             <Col flex="auto">
               <Text strong style={{ fontSize: 16 }}>{nextAchievement.name_pt}</Text>
-              <div>
+              <div style={{ marginTop: 4 }}>
                 <Text type="secondary">{nextAchievement.description_pt}</Text>
               </div>
               {nextAchievement.threshold_value && (
-                <Progress percent={0} size="small" style={{ marginTop: 8 }} />
+                <div style={{ marginTop: 12 }}>
+                  <Text type="secondary" style={{ fontSize: 12 }}>
+                    Progresso para desbloquear
+                  </Text>
+                  <Progress percent={0} size="small" status="active" />
+                </div>
               )}
             </Col>
           </Row>
