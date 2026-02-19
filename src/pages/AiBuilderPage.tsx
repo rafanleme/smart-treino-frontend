@@ -42,13 +42,23 @@ export function AiBuilderPage() {
 
   useEffect(() => {
     // Fetch exercises for mapping IDs to names
-    exerciseService.list({ per_page: 1000 }).then((response) => {
-      const map = new Map<number, Exercise>();
-      response.data.data.forEach((exercise) => {
-        map.set(exercise.id, exercise);
-      });
-      setExerciseMap(map);
-    });
+    const fetchExercises = async () => {
+      try {
+        const response = await exerciseService.list({ perPage: 1000 } as any);
+        const map = new Map<number, Exercise>();
+        response.data.data.forEach((exercise) => {
+          map.set(exercise.id, exercise);
+        });
+        console.log('📚 Exercise map loaded:', map.size, 'exercises');
+        console.log('Sample IDs:', Array.from(map.keys()).slice(0, 10));
+        setExerciseMap(map);
+      } catch (error) {
+        console.error('Error fetching exercises:', error);
+        message.error('Erro ao carregar exercícios');
+      }
+    };
+
+    fetchExercises();
   }, []);
 
   useEffect(() => {
@@ -67,7 +77,10 @@ export function AiBuilderPage() {
 
     try {
       const response = await aiService.generateWorkout(values);
-      setGeneratedWorkout(response.data.data);
+      const workout = response.data.data;
+      console.log('🤖 Generated workout:', workout);
+      console.log('Exercise IDs from AI:', workout.exercises.map((e: any) => e.exercise_id));
+      setGeneratedWorkout(workout);
       message.success('Treino gerado com sucesso pela IA!');
     } catch (error: any) {
       message.error(error.response?.data?.message || 'Erro ao gerar treino');

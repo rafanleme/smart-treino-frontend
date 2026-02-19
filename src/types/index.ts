@@ -69,12 +69,16 @@ export interface Exercise {
 
 export interface ExerciseFilters {
   muscle_group?: MuscleGroup;
+  muscleGroup?: MuscleGroup;
   equipment?: Equipment;
   difficulty?: Difficulty;
   exercise_type?: ExerciseType;
+  exerciseType?: ExerciseType;
   search?: string;
   include_custom?: boolean;
+  includeCustom?: boolean;
   per_page?: number;
+  perPage?: number;
   page?: number;
 }
 
