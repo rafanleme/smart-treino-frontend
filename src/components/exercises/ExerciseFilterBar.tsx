@@ -1,6 +1,6 @@
 import { Input, Select, Segmented, Space, Tag } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { MuscleGroup, Equipment, Difficulty, ExerciseFilters } from '../../types';
 
 const muscleGroupOptions: { value: MuscleGroup; label: string; color: string }[] = [
@@ -41,15 +41,21 @@ interface ExerciseFilterBarProps {
 
 export function ExerciseFilterBar({ filters, onFiltersChange }: ExerciseFilterBarProps) {
   const [searchValue, setSearchValue] = useState(filters.search || '');
+  const filtersRef = useRef(filters);
+
+  // Keep ref in sync with latest filters
+  useEffect(() => {
+    filtersRef.current = filters;
+  }, [filters]);
 
   // Debounce search input
   useEffect(() => {
     const timer = setTimeout(() => {
-      onFiltersChange({ ...filters, search: searchValue || undefined });
+      onFiltersChange({ ...filtersRef.current, search: searchValue || undefined });
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchValue]);
+  }, [searchValue, onFiltersChange]);
 
   const handleMuscleGroupChange = (muscleGroup: MuscleGroup | undefined) => {
     onFiltersChange({ ...filters, muscle_group: muscleGroup });
