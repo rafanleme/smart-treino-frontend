@@ -42,20 +42,34 @@ interface ExerciseFilterBarProps {
 export function ExerciseFilterBar({ filters, onFiltersChange }: ExerciseFilterBarProps) {
   const [searchValue, setSearchValue] = useState(filters.search || '');
   const filtersRef = useRef(filters);
+  const isFirstRender = useRef(true);
 
   // Keep ref in sync with latest filters
   useEffect(() => {
     filtersRef.current = filters;
   }, [filters]);
 
+  // Sync searchValue when filters.search changes externally
+  useEffect(() => {
+    if (filters.search !== searchValue) {
+      setSearchValue(filters.search || '');
+    }
+  }, [filters.search]);
+
   // Debounce search input
   useEffect(() => {
+    // Skip debounce on first render to avoid overwriting initial filters
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     const timer = setTimeout(() => {
       onFiltersChange({ ...filtersRef.current, search: searchValue || undefined });
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchValue, onFiltersChange]);
+  }, [searchValue]); // onFiltersChange omitido intencionalmente - é estável e a ref resolve o race condition
 
   const handleMuscleGroupChange = (muscleGroup: MuscleGroup | undefined) => {
     onFiltersChange({ ...filters, muscle_group: muscleGroup });

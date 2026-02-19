@@ -44,7 +44,7 @@ export function AiBuilderPage() {
     // Fetch exercises for mapping IDs to names
     const fetchExercises = async () => {
       try {
-        const response = await exerciseService.list({ perPage: 1000 } as any);
+        const response = await exerciseService.list({ per_page: 1000 });
         const map = new Map<number, Exercise>();
         response.data.data.forEach((exercise) => {
           map.set(exercise.id, exercise);
