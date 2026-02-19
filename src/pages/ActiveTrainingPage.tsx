@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Row, Col, Button, Spin, Popconfirm, Card, message } from 'antd';
-import { StopOutlined } from '@ant-design/icons';
+import { Row, Col, Button, Spin, Popconfirm, Card, message, Tag } from 'antd';
+import { StopOutlined, EyeOutlined } from '@ant-design/icons';
 import { sessionService } from '../services/sessionService';
 import { useTrainingSession } from '../contexts/TrainingSessionContext';
+import { useWakeLock } from '../hooks/useWakeLock';
 import {
   SessionTimer,
   ExerciseNavigator,
@@ -16,6 +17,7 @@ export function ActiveTrainingPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { endSession, clearSession } = useTrainingSession();
+  const { isSupported: isWakeLockSupported, isActive: isWakeLockActive, request: requestWakeLock, release: releaseWakeLock } = useWakeLock();
 
   const [session, setSession] = useState<TrainingSession | null>(null);
   const [loading, setLoading] = useState(true);
@@ -56,6 +58,17 @@ export function ActiveTrainingPage() {
 
     return () => clearInterval(interval);
   }, [id]);
+
+  // Wake Lock: keep screen active during training
+  useEffect(() => {
+    if (session?.status === 'in_progress') {
+      requestWakeLock();
+    }
+
+    return () => {
+      releaseWakeLock();
+    };
+  }, [session?.status, requestWakeLock, releaseWakeLock]);
 
   const handleExerciseUpdate = (updatedExercise: SessionExercise) => {
     if (!session) return;
@@ -144,7 +157,14 @@ export function ActiveTrainingPage() {
                 <div style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 4 }}>
                   {session.workout_name}
                 </div>
-                <SessionTimer startedAt={session.started_at} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <SessionTimer startedAt={session.started_at} />
+                  {isWakeLockSupported && isWakeLockActive && (
+                    <Tag icon={<EyeOutlined />} color="success">
+                      Tela mantida ativa
+                    </Tag>
+                  )}
+                </div>
               </div>
 
               <Popconfirm

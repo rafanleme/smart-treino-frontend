@@ -8,6 +8,8 @@ import { TrainingSessionProvider } from './contexts/TrainingSessionContext';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { AppLayout } from './components/layout/AppLayout';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { PwaUpdatePrompt } from './components/common/PwaUpdatePrompt';
+import { InstallPrompt } from './components/common/InstallPrompt';
 import { LoginPage } from './pages/LoginPage';
 import { GoogleCallbackPage } from './pages/GoogleCallbackPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -42,6 +44,8 @@ const PageLoader = () => (
 function App() {
   return (
     <ErrorBoundary>
+      <PwaUpdatePrompt />
+      <InstallPrompt />
       <ConfigProvider theme={theme} locale={ptBR}>
         <AntdApp>
           <BrowserRouter>

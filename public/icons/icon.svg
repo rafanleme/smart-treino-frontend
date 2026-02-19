@@ -1,0 +1,25 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with theme color -->
+  <circle cx="256" cy="256" r="256" fill="#1677ff"/>
+
+  <!-- Dumbbell icon in white -->
+  <g fill="#ffffff">
+    <!-- Left weight -->
+    <rect x="80" y="216" width="40" height="80" rx="8"/>
+
+    <!-- Left connector -->
+    <rect x="120" y="240" width="80" height="32" rx="4"/>
+
+    <!-- Center bar -->
+    <rect x="200" y="232" width="112" height="48" rx="6"/>
+
+    <!-- Right connector -->
+    <rect x="312" y="240" width="80" height="32" rx="4"/>
+
+    <!-- Right weight -->
+    <rect x="392" y="216" width="40" height="80" rx="8"/>
+  </g>
+
+  <!-- "ST" monogram overlay (optional) -->
+  <text x="256" y="400" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="#ffffff" text-anchor="middle">ST</text>
+</svg>
