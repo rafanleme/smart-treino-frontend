@@ -1,4 +1,4 @@
-import { Space, InputNumber, Input } from 'antd';
+import { Row, Col, InputNumber, Input } from 'antd';
 
 interface SetsRepsInputProps {
   sets: number;
@@ -24,33 +24,39 @@ export function SetsRepsInput({
   onRestBlur,
 }: SetsRepsInputProps) {
   return (
-    <Space.Compact style={{ width: '100%' }}>
-      <InputNumber
-        addonBefore="Séries"
-        min={1}
-        max={50}
-        value={sets}
-        onChange={onSetsChange}
-        onBlur={onSetsBlur}
-        style={{ width: '33%' }}
-      />
-      <Input
-        addonBefore="Reps"
-        value={reps}
-        onChange={(e) => onRepsChange(e.target.value)}
-        onBlur={onRepsBlur}
-        placeholder="12"
-        style={{ width: '34%' }}
-      />
-      <InputNumber
-        addonBefore="Descanso(s)"
-        min={0}
-        max={600}
-        value={restSeconds}
-        onChange={onRestChange}
-        onBlur={onRestBlur}
-        style={{ width: '33%' }}
-      />
-    </Space.Compact>
+    <Row gutter={[8, 8]}>
+      <Col xs={24} sm={8}>
+        <InputNumber
+          addonBefore="Séries"
+          min={1}
+          max={50}
+          value={sets}
+          onChange={onSetsChange}
+          onBlur={onSetsBlur}
+          style={{ width: '100%' }}
+        />
+      </Col>
+      <Col xs={24} sm={8}>
+        <Input
+          addonBefore="Reps"
+          value={reps}
+          onChange={(e) => onRepsChange(e.target.value)}
+          onBlur={onRepsBlur}
+          placeholder="12"
+          style={{ width: '100%' }}
+        />
+      </Col>
+      <Col xs={24} sm={8}>
+        <InputNumber
+          addonBefore="Descanso(s)"
+          min={0}
+          max={600}
+          value={restSeconds}
+          onChange={onRestChange}
+          onBlur={onRestBlur}
+          style={{ width: '100%' }}
+        />
+      </Col>
+    </Row>
   );
 }
