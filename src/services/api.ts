@@ -42,9 +42,27 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const config = error.config as InternalAxiosRequestConfig & { _retry?: boolean; _retryCount?: number };
 
-    // Handle 401 Unauthorized
-    if (error.response?.status === 401) {
+    // Handle 401 Unauthorized - try to refresh token first
+    if (error.response?.status === 401 && !config._retry) {
+      config._retry = true;
+
+      try {
+        // Dynamic import to avoid circular dependency
+        const { refreshAccessToken } = await import('./tokenRefresh');
+        const newToken = await refreshAccessToken();
+
+        if (newToken) {
+          // Update authorization header and retry original request
+          config.headers.Authorization = `Bearer ${newToken}`;
+          return api(config);
+        }
+      } catch (refreshError) {
+        // Refresh failed, will redirect to login below
+      }
+
+      // Refresh failed or returned null - redirect to login
       setAccessToken(null);
+      localStorage.removeItem('st_token');
       window.location.href = '/login';
       return Promise.reject(error);
     }
