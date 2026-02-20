@@ -9,27 +9,32 @@ interface RestTimerProps {
 }
 
 export function RestTimer({ duration, onComplete, onSkip }: RestTimerProps) {
+  const [startTime] = useState(() => Date.now());
   const [remaining, setRemaining] = useState(duration);
 
   useEffect(() => {
-    if (remaining <= 0) {
-      playBeep();
-      onComplete();
-      return;
-    }
+    const calculateRemaining = () => {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      return Math.max(0, duration - elapsed);
+    };
 
-    const timer = setInterval(() => {
-      setRemaining(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
+    // Initial calculation
+    setRemaining(calculateRemaining());
+
+    // Update every second
+    const interval = setInterval(() => {
+      const newRemaining = calculateRemaining();
+      setRemaining(newRemaining);
+
+      if (newRemaining <= 0) {
+        clearInterval(interval);
+        playBeep();
+        onComplete();
+      }
     }, 1000);
 
-    return () => clearInterval(timer);
-  }, [remaining, onComplete]);
+    return () => clearInterval(interval);
+  }, [startTime, duration, onComplete]);
 
   const percent = ((duration - remaining) / duration) * 100;
 
