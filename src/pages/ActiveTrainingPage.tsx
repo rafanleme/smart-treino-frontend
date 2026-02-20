@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Row, Col, Button, Spin, Popconfirm, Card, message, Tag } from 'antd';
-import { StopOutlined, EyeOutlined } from '@ant-design/icons';
+import { Row, Col, Button, Spin, Popconfirm, Card, message } from 'antd';
+import { StopOutlined } from '@ant-design/icons';
 import { sessionService } from '../services/sessionService';
 import { useTrainingSession } from '../contexts/TrainingSessionContext';
 import { useWakeLock } from '../hooks/useWakeLock';
@@ -17,7 +17,7 @@ export function ActiveTrainingPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { endSession, clearSession } = useTrainingSession();
-  const { isSupported: isWakeLockSupported, isActive: isWakeLockActive, request: requestWakeLock, release: releaseWakeLock } = useWakeLock();
+  const { request: requestWakeLock, release: releaseWakeLock } = useWakeLock();
 
   const [session, setSession] = useState<TrainingSession | null>(null);
   const [loading, setLoading] = useState(true);
@@ -159,14 +159,8 @@ export function ActiveTrainingPage() {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                   <SessionTimer startedAt={session.started_at} />
-                  {isWakeLockSupported && isWakeLockActive && (
-                    <Tag icon={<EyeOutlined />} color="success">
-                      Tela mantida ativa
-                    </Tag>
-                  )}
                 </div>
               </div>
-
               <Popconfirm
                 title="Abandonar treino?"
                 description="Você perderá o progresso deste treino."

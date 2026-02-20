@@ -19,13 +19,14 @@ interface ExercisePlayerProps {
 export function ExercisePlayer({ exercise, onUpdate, onNext, onSkip }: ExercisePlayerProps) {
   const [sets, setSets] = useState<SessionSet[]>(exercise.session_sets || []);
   const [resting, setResting] = useState(false);
-  const [restDuration, setRestDuration] = useState(60);
+  const [restDuration, setRestDuration] = useState(exercise.rest_seconds || 90);
   const [previousLoad, setPreviousLoad] = useState<PreviousLoad | null>(null);
 
   // Sync sets when exercise changes
   useEffect(() => {
     setSets(exercise.session_sets || []);
-  }, [exercise.id]);
+    setRestDuration(exercise.rest_seconds || 90);
+  }, [exercise.id, exercise.rest_seconds]);
 
   // Load previous load data
   useEffect(() => {
