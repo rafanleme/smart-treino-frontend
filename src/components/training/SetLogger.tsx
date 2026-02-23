@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Form, InputNumber, Slider, Button, Space, message } from 'antd';
+import { App, Form, InputNumber, Slider, Button, Space } from 'antd';
 import { sessionService } from '../../services/sessionService';
 import type { SessionSet } from '../../types';
 
@@ -18,6 +18,7 @@ export function SetLogger({
   defaultRestSeconds = 60,
   previousSets = [],
 }: SetLoggerProps) {
+  const { message } = App.useApp();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 

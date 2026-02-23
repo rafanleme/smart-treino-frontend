@@ -1,4 +1,4 @@
-import { Typography, Button, Card, Form, Row, Col, DatePicker, Input, message } from 'antd';
+import { App, Typography, Button, Card, Form, Row, Col, DatePicker, Input } from 'antd';
 import { SaveOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 const { Title, Text } = Typography;
 
 export function AssessmentCreatePage() {
+  const { message } = App.useApp();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);

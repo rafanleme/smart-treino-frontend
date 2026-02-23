@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
+import { App } from 'antd';
 import { workoutService } from '../services/workoutService';
 import type { Workout } from '../types';
-import { message } from 'antd';
 
 interface UseWorkoutsReturn {
   workouts: Workout[];
@@ -13,6 +13,7 @@ interface UseWorkoutsReturn {
 }
 
 export function useWorkouts(): UseWorkoutsReturn {
+  const { message } = App.useApp();
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

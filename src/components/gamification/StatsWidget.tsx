@@ -30,7 +30,7 @@ export const StatsWidget: React.FC<StatsWidgetProps> = ({
             title="Total de Treinos"
             value={totalSessions}
             prefix={<ThunderboltOutlined />}
-            valueStyle={{ color: '#3f8600' }}
+            styles={{ content: { color: '#3f8600' } }}
           />
         </Card>
       </Col>
@@ -43,7 +43,7 @@ export const StatsWidget: React.FC<StatsWidgetProps> = ({
             precision={1}
             prefix={<ClockCircleOutlined />}
             suffix="h"
-            valueStyle={{ color: '#1890ff' }}
+            styles={{ content: { color: '#1890ff' } }}
           />
         </Card>
       </Col>
@@ -56,7 +56,7 @@ export const StatsWidget: React.FC<StatsWidgetProps> = ({
             precision={0}
             prefix={<RiseOutlined />}
             suffix="kg"
-            valueStyle={{ color: '#cf1322' }}
+            styles={{ content: { color: '#cf1322' } }}
           />
         </Card>
       </Col>
@@ -68,7 +68,7 @@ export const StatsWidget: React.FC<StatsWidgetProps> = ({
             value={currentStreak}
             prefix={<FireOutlined />}
             suffix="dias"
-            valueStyle={{ color: '#faad14' }}
+            styles={{ content: { color: '#faad14' } }}
           />
         </Card>
       </Col>
@@ -79,7 +79,7 @@ export const StatsWidget: React.FC<StatsWidgetProps> = ({
             title="PRs Recentes (30 dias)"
             value={recentPRs}
             prefix={<TrophyOutlined />}
-            valueStyle={{ color: '#52c41a' }}
+            styles={{ content: { color: '#52c41a' } }}
           />
         </Card>
       </Col>

@@ -122,7 +122,7 @@ export function SessionHistoryPage() {
                       title="Duração"
                       value={session.duration_seconds ? formatDuration(session.duration_seconds) : '0min'}
                       prefix={<ClockCircleOutlined />}
-                      valueStyle={{ fontSize: 16 }}
+                      styles={{ content: { fontSize: 16 } }}
                     />
                   </Col>
 
@@ -131,7 +131,7 @@ export function SessionHistoryPage() {
                       title="Séries"
                       value={summary?.total_sets || 0}
                       prefix={<FireOutlined />}
-                      valueStyle={{ fontSize: 16 }}
+                      styles={{ content: { fontSize: 16 } }}
                     />
                   </Col>
 
@@ -140,7 +140,7 @@ export function SessionHistoryPage() {
                       title="Volume (kg)"
                       value={summary?.total_volume_kg || 0}
                       prefix={<TrophyOutlined />}
-                      valueStyle={{ fontSize: 16 }}
+                      styles={{ content: { fontSize: 16 } }}
                       precision={0}
                     />
                   </Col>

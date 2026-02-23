@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Card, Statistic, Row, Col, Collapse, Button, Typography, message, Spin } from 'antd';
+import { App, Card, Statistic, Row, Col, Collapse, Button, Typography, Spin } from 'antd';
 import {
   ClockCircleOutlined,
   ThunderboltOutlined,
@@ -17,6 +17,7 @@ import type { TrainingSession } from '../types';
 const { Title, Text } = Typography;
 
 export function SessionDetailPage() {
+  const { message } = App.useApp();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [session, setSession] = useState<TrainingSession | null>(null);

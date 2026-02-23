@@ -12,7 +12,7 @@ interface PersonalRecordCardProps {
 export const PersonalRecordCard: React.FC<PersonalRecordCardProps> = ({ record }) => {
   return (
     <Card size="small" style={{ borderLeft: '3px solid #52c41a' }}>
-      <Space direction="vertical" style={{ width: '100%' }} size="small">
+      <Space orientation="vertical" style={{ width: '100%' }} size="small">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Space>
             <TrophyOutlined style={{ color: '#faad14', fontSize: '18px' }} />

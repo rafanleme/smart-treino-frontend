@@ -1,14 +1,14 @@
-import { Typography, Button, Card, Descriptions, Spin, Empty } from 'antd';
+import { App, Typography, Button, Card, Descriptions, Spin, Empty } from 'antd';
 import { ArrowLeftOutlined, EditOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { assessmentService } from '../services/assessmentService';
 import type { PhysicalAssessment } from '../types';
-import { message } from 'antd';
 
 const { Title } = Typography;
 
 export function AssessmentDetailPage() {
+  const { message } = App.useApp();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [assessment, setAssessment] = useState<PhysicalAssessment | null>(null);

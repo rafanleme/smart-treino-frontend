@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
+import { App } from 'antd';
 import { assessmentService } from '../services/assessmentService';
 import type { PhysicalAssessment } from '../types';
-import { message } from 'antd';
 
 interface UseAssessmentsReturn {
   assessments: PhysicalAssessment[];
@@ -12,6 +12,7 @@ interface UseAssessmentsReturn {
 }
 
 export function useAssessments(): UseAssessmentsReturn {
+  const { message } = App.useApp();
   const [assessments, setAssessments] = useState<PhysicalAssessment[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

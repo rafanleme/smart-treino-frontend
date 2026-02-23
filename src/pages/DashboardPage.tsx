@@ -88,7 +88,7 @@ export function DashboardPage() {
   if (statsError || !stats) {
     return (
       <Alert
-        message="Erro"
+        title="Erro"
         description={statsError || 'Erro ao carregar estatísticas'}
         type="error"
         showIcon
@@ -269,7 +269,7 @@ export function DashboardPage() {
         {recentSessions.length === 0 ? (
           <Text type="secondary">Nenhuma sessão realizada ainda</Text>
         ) : (
-          <Space direction="vertical" style={{ width: '100%' }} size="middle">
+          <Space orientation="vertical" style={{ width: '100%' }} size="middle">
             {recentSessions.map((session: any) => (
               <Card key={session.id} size="small" style={{ background: '#fafafa' }}>
                 <Row justify="space-between" align="middle">
@@ -304,7 +304,7 @@ export function DashboardPage() {
             {recentAchievements.length === 0 ? (
               <Text type="secondary">Nenhuma conquista desbloqueada ainda</Text>
             ) : (
-              <Space direction="vertical" style={{ width: '100%' }} size="middle">
+              <Space orientation="vertical" style={{ width: '100%' }} size="middle">
                 {recentAchievements.map(achievement => (
                   <AchievementBadge key={achievement.id} achievement={achievement} />
                 ))}
@@ -318,7 +318,7 @@ export function DashboardPage() {
             {recentRecords.length === 0 ? (
               <Text type="secondary">Nenhum record pessoal ainda</Text>
             ) : (
-              <Space direction="vertical" style={{ width: '100%' }} size="middle">
+              <Space orientation="vertical" style={{ width: '100%' }} size="middle">
                 {recentRecords.map(record => (
                   <PersonalRecordCard key={record.id} record={record} />
                 ))}
@@ -331,7 +331,7 @@ export function DashboardPage() {
       {/* Favorite Exercise */}
       {stats.favorite_exercise && (
         <Card title="Exercício Favorito" style={{ marginTop: '24px' }}>
-          <Space direction="vertical">
+          <Space orientation="vertical">
             <Text strong style={{ fontSize: '18px' }}>{stats.favorite_exercise.name_pt}</Text>
             <Text type="secondary">Realizado {stats.favorite_exercise.times_performed} vezes</Text>
           </Space>

@@ -1,4 +1,4 @@
-import { Card, Avatar, Typography, Button, Row, Col, Statistic, Divider, Space, message } from 'antd';
+import { App, Card, Avatar, Typography, Button, Row, Col, Statistic, Divider, Space } from 'antd';
 import { UserOutlined, LogoutOutlined, TrophyOutlined, FireOutlined, LineChartOutlined } from '@ant-design/icons';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import type { DashboardStats } from '../types';
 const { Title, Text } = Typography;
 
 export function ProfilePage() {
+  const { message } = App.useApp();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -63,7 +64,7 @@ export function ProfilePage() {
 
               <Divider />
 
-              <Space direction="vertical" style={{ width: '100%' }}>
+              <Space orientation="vertical" style={{ width: '100%' }}>
                 <Button
                   type="primary"
                   danger

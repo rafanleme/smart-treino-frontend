@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
+import { App } from 'antd';
 import { exerciseService } from '../services/exerciseService';
 import type { Exercise, ExerciseFilters } from '../types';
-import { message } from 'antd';
 
 interface UseExercisesReturn {
   exercises: Exercise[];
@@ -19,6 +19,7 @@ interface UseExercisesReturn {
 }
 
 export function useExercises(initialFilters: ExerciseFilters = {}): UseExercisesReturn {
+  const { message } = App.useApp();
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

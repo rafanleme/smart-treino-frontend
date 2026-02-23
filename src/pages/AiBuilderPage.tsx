@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Typography, Form, Select, Checkbox, InputNumber, Input, Button, Card, Row, Col, Spin, Alert, Collapse, message, Space, Divider } from 'antd';
+import { App, Typography, Form, Select, Checkbox, InputNumber, Input, Button, Card, Row, Col, Spin, Alert, Collapse, Space, Divider } from 'antd';
 import { RobotOutlined, ThunderboltOutlined, SaveOutlined, EditOutlined, ReloadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { aiService, type GenerateWorkoutRequest, type GeneratedWorkout } from '../services/aiService';
@@ -32,6 +32,7 @@ const loadingMessages = [
 ];
 
 export function AiBuilderPage() {
+  const { message } = App.useApp();
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -257,7 +258,7 @@ export function AiBuilderPage() {
       {generatedWorkout && !loading && (
         <div>
           <Alert
-            message="Treino gerado com sucesso!"
+            title="Treino gerado com sucesso!"
             description={generatedWorkout.ai_notes}
             type="success"
             showIcon
@@ -313,7 +314,7 @@ export function AiBuilderPage() {
                       )}
                       {exercise.ai_reasoning && (
                         <Alert
-                          message="💡 Por que este exercício?"
+                          title="💡 Por que este exercício?"
                           description={exercise.ai_reasoning}
                           type="info"
                           showIcon={false}
@@ -322,7 +323,7 @@ export function AiBuilderPage() {
                       )}
                       {exercise.notes && exercise.notes !== exercise.ai_reasoning && (
                         <Alert
-                          message="📝 Notas"
+                          title="📝 Notas"
                           description={exercise.notes}
                           type="warning"
                           showIcon={false}

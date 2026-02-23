@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Row, Col, Button, Spin, Popconfirm, Card, message } from 'antd';
+import { App, Row, Col, Button, Spin, Popconfirm, Card } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import { sessionService } from '../services/sessionService';
 import { useTrainingSession } from '../contexts/TrainingSessionContext';
@@ -14,6 +14,7 @@ import {
 import type { TrainingSession, SessionExercise } from '../types';
 
 export function ActiveTrainingPage() {
+  const { message } = App.useApp();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { endSession, clearSession } = useTrainingSession();

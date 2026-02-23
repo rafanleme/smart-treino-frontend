@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { Spin, Typography, message } from 'antd';
+import { App, Spin, Typography } from 'antd';
 
 const { Text } = Typography;
 
 export function GoogleCallbackPage() {
+  const { message } = App.useApp();
   const [searchParams] = useSearchParams();
   const { handleGoogleCallback } = useAuth();
   const navigate = useNavigate();

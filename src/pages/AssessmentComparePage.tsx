@@ -1,15 +1,15 @@
-import { Typography, Button, Card, Select, Row, Col, Spin, Empty, Descriptions, Tag } from 'antd';
+import { App, Typography, Button, Card, Select, Row, Col, Spin, Empty, Descriptions, Tag } from 'antd';
 import { ArrowLeftOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { assessmentService } from '../services/assessmentService';
 import { useAssessments } from '../hooks/useAssessments';
 import type { AssessmentComparison, AssessmentDelta } from '../types';
-import { message } from 'antd';
 
 const { Title, Text } = Typography;
 
 export function AssessmentComparePage() {
+  const { message } = App.useApp();
   const navigate = useNavigate();
   const { assessments, loading: loadingAssessments } = useAssessments();
   const [fromId, setFromId] = useState<number | null>(null);

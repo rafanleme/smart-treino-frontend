@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { AppHeader } from './AppHeader';
 import { MobileNav } from './MobileNav';
+import { ActiveSessionBanner } from '../training/ActiveSessionBanner';
 import { useState } from 'react';
 
 const { Sider, Header, Content } = Layout;
@@ -39,7 +40,7 @@ export function AppLayout() {
           placement="left"
           onClose={() => setMobileDrawerOpen(false)}
           open={mobileDrawerOpen}
-          bodyStyle={{ padding: 0 }}
+          styles={{ body: { padding: 0 } }}
         >
           <Sidebar onNavigate={() => setMobileDrawerOpen(false)} />
         </Drawer>
@@ -57,6 +58,7 @@ export function AppLayout() {
           minHeight: 280,
           marginBottom: isMobile ? 64 : 24, // Space for bottom nav on mobile
         }}>
+          <ActiveSessionBanner />
           <Outlet />
         </Content>
 

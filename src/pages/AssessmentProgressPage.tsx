@@ -1,10 +1,9 @@
-import { Typography, Button, Card, Select, DatePicker, Row, Col, Spin, Empty, Statistic } from 'antd';
+import { App, Typography, Button, Card, Select, DatePicker, Row, Col, Spin, Empty, Statistic } from 'antd';
 import { ArrowLeftOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { assessmentService } from '../services/assessmentService';
 import type { ProgressDataPoint } from '../types';
-import { message } from 'antd';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { type Dayjs } from 'dayjs';
 
@@ -29,6 +28,7 @@ const MEASUREMENT_OPTIONS = [
 ];
 
 export function AssessmentProgressPage() {
+  const { message } = App.useApp();
   const navigate = useNavigate();
   const [selectedField, setSelectedField] = useState<string>('weight_kg');
   const [dateRange, setDateRange] = useState<[Dayjs | null, Dayjs | null] | null>(null);
@@ -167,7 +167,7 @@ export function AssessmentProgressPage() {
                   value={Math.abs(stats.delta)}
                   suffix={getUnit()}
                   precision={1}
-                  valueStyle={{ color: stats.delta > 0 ? '#3f8600' : stats.delta < 0 ? '#cf1322' : undefined }}
+                  styles={{ content: { color: stats.delta > 0 ? '#3f8600' : stats.delta < 0 ? '#cf1322' : undefined } }}
                   prefix={stats.delta > 0 ? <ArrowUpOutlined /> : stats.delta < 0 ? <ArrowDownOutlined /> : null}
                 />
                 <div style={{ fontSize: 14, color: '#999', marginTop: 8 }}>

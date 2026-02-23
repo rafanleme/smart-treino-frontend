@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Typography, Form, Input, InputNumber, Button, Card, message } from 'antd';
+import { App, Typography, Form, Input, InputNumber, Button, Card } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { workoutService } from '../services/workoutService';
 
@@ -7,6 +7,7 @@ const { Title } = Typography;
 const { TextArea } = Input;
 
 export function WorkoutCreatePage() {
+  const { message } = App.useApp();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);

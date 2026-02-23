@@ -100,12 +100,11 @@ api.interceptors.response.use(
 
       if (status >= 500) {
         message.error('Erro no servidor. Tente novamente em alguns instantes.');
-      } else if (status === 404) {
-        message.error(errorMessage || 'Recurso não encontrado');
       } else if (status === 403) {
         message.error('Você não tem permissão para esta ação');
-      } else if (status !== 422) {
+      } else if (status !== 422 && status !== 404) {
         // 422 is validation error, handled by forms
+        // 404 is handled individually by each component/service
         message.error(errorMessage || 'Erro ao processar requisição');
       }
     } else if (error.request) {

@@ -1,29 +1,63 @@
-import { useEffect } from 'react';
-import { Typography, Card, Button, Empty, Spin, Row, Col } from 'antd';
-import { PlayCircleOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import { App, Typography, Card, Button, Empty, Spin, Row, Col, Modal, Space, Divider } from 'antd';
+import { PlayCircleOutlined, ClockCircleOutlined, WarningOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useWorkouts } from '../hooks/useWorkouts';
 import { useTrainingSession } from '../contexts/TrainingSessionContext';
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import type { TrainingSession } from '../types';
 
 const { Title, Text } = Typography;
 
 export function TrainSelectPage() {
+  const { message } = App.useApp();
   const navigate = useNavigate();
   const { workouts, loading } = useWorkouts();
-  const { activeSession, startSession } = useTrainingSession();
-
-  // If there's an active session, redirect to it
-  useEffect(() => {
-    if (activeSession) {
-      navigate(`/train/${activeSession.id}`);
-    }
-  }, [activeSession, navigate]);
+  const { startSession, endSession } = useTrainingSession();
+  const [showConflictModal, setShowConflictModal] = useState(false);
+  const [conflictSession, setConflictSession] = useState<TrainingSession | null>(null);
+  const [pendingWorkoutId, setPendingWorkoutId] = useState<number | null>(null);
 
   const handleStartWorkout = async (workoutId: number) => {
-    const session = await startSession(workoutId);
-    if (session) {
-      navigate(`/train/${session.id}`);
+    try {
+      const session = await startSession(workoutId);
+      if (session) {
+        navigate(`/train/${session.id}`);
+      }
+    } catch (error: any) {
+      // Check if error is due to existing active session
+      if (error.response?.status === 400 && error.response?.data?.data?.session) {
+        setConflictSession(error.response.data.data.session);
+        setPendingWorkoutId(workoutId);
+        setShowConflictModal(true);
+      } else {
+        message.error(error.response?.data?.message || 'Erro ao iniciar treino');
+      }
     }
+  };
+
+  const handleResumeExisting = () => {
+    if (conflictSession) {
+      navigate(`/train/${conflictSession.id}`);
+    }
+    setShowConflictModal(false);
+  };
+
+  const handleAbandonAndStart = async () => {
+    if (conflictSession && pendingWorkoutId) {
+      try {
+        await endSession('abandoned', 'Abandonado para iniciar novo treino');
+        // Try starting new session again
+        const session = await startSession(pendingWorkoutId);
+        if (session) {
+          navigate(`/train/${session.id}`);
+        }
+      } catch (error: any) {
+        message.error(error.response?.data?.message || 'Erro ao iniciar novo treino');
+      }
+    }
+    setShowConflictModal(false);
   };
 
   if (loading) {
@@ -90,6 +124,61 @@ export function TrainSelectPage() {
           </Col>
         ))}
       </Row>
+
+      <Modal
+        title={
+          <Space>
+            <WarningOutlined style={{ color: '#faad14' }} />
+            <span>Treino Ativo Detectado</span>
+          </Space>
+        }
+        open={showConflictModal}
+        onCancel={() => setShowConflictModal(false)}
+        footer={
+          <Space style={{ width: '100%', justifyContent: 'space-between' }}>
+            <Button onClick={() => setShowConflictModal(false)}>
+              Cancelar
+            </Button>
+            <Space>
+              <Button danger onClick={handleAbandonAndStart}>
+                Abandonar e Criar Novo
+              </Button>
+              <Button type="primary" icon={<PlayCircleOutlined />} onClick={handleResumeExisting}>
+                Retomar Treino
+              </Button>
+            </Space>
+          </Space>
+        }
+        width={500}
+      >
+        <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
+          <div>
+            <Text type="secondary">Você já tem uma sessão de treino ativa:</Text>
+          </div>
+
+          <Card size="small" style={{ background: '#f5f5f5' }}>
+            <Space orientation="vertical" size="small" style={{ width: '100%' }}>
+              <Title level={5} style={{ margin: 0 }}>
+                {conflictSession?.workout_name}
+              </Title>
+              {conflictSession && (
+                <Text type="secondary">
+                  <ClockCircleOutlined /> Iniciada {formatDistanceToNow(
+                    new Date(conflictSession.started_at),
+                    { locale: ptBR, addSuffix: true }
+                  )}
+                </Text>
+              )}
+            </Space>
+          </Card>
+
+          <Divider style={{ margin: '8px 0' }} />
+
+          <Text>
+            Deseja retomar o treino existente ou abandoná-lo para iniciar um novo?
+          </Text>
+        </Space>
+      </Modal>
     </div>
   );
 }

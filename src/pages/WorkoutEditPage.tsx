@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Typography, Form, Input, InputNumber, Button, Card, Space, message, Spin } from 'antd';
+import { App, Typography, Form, Input, InputNumber, Button, Card, Space, Spin } from 'antd';
 import { PlusOutlined, SaveOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { workoutService } from '../services/workoutService';
@@ -13,6 +13,7 @@ const { Title } = Typography;
 const { TextArea } = Input;
 
 export function WorkoutEditPage() {
+  const { message } = App.useApp();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [form] = Form.useForm();

@@ -49,7 +49,7 @@ export function PersonalRecordsPage() {
       </Paragraph>
 
       {loading ? (
-        <Space direction="vertical" style={{ width: '100%' }} size="middle">
+        <Space orientation="vertical" style={{ width: '100%' }} size="middle">
           {Array.from({ length: 3 }).map((_, index) => (
             <Card key={index}>
               <Skeleton active title paragraph={{ rows: 2 }} />
@@ -74,7 +74,7 @@ export function PersonalRecordsPage() {
           {records.length === 0 ? (
         <Empty description="Nenhum record pessoal ainda. Continue treinando!" />
           ) : (
-            <Space direction="vertical" style={{ width: '100%' }} size="middle">
+            <Space orientation="vertical" style={{ width: '100%' }} size="middle">
               {selectedExerciseId ? (
                 // Show all records for selected exercise
                 records.map(record => (
