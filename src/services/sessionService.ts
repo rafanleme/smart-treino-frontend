@@ -8,6 +8,9 @@ export const sessionService = {
   get: (id: number) =>
     api.get<ApiResponse<TrainingSession>>(`/sessions/${id}`),
 
+  getActive: () =>
+    api.get<ApiResponse<TrainingSession>>('/sessions/active'),
+
   start: (workoutId: number) =>
     api.post<ApiResponse<TrainingSession>>('/sessions', { workout_id: workoutId }),
 

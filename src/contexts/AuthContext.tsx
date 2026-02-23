@@ -39,7 +39,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } else {
       setLoading(false);
     }
-  }, [fetchUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // fetchUser is stable (useCallback with no deps)
 
   const login = useCallback(async () => {
     try {

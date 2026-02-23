@@ -5,3 +5,4 @@ export { SetLogger } from './SetLogger';
 export { ExerciseNavigator } from './ExerciseNavigator';
 export { ExercisePlayer } from './ExercisePlayer';
 export { SessionSummary } from './SessionSummary';
+export { ActiveSessionBanner } from './ActiveSessionBanner';
